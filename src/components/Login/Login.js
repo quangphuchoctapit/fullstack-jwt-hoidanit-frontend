@@ -3,26 +3,24 @@ import './Login.scss'
 
 const Login = (props) => {
     return (
-        <div class='login-container mt-3 '>
+        <div className='login-container pt-3'>
             <div className='container'>
-                <div className='row'>
-                    <div className='content-left red col-7'>
-                        <div className='title'>TommyLe</div>
-                        <div className='detail'>Content content content content</div>
-
+                <div className='row px-3 px-sm-0'>
+                    <div className='content-left col-12 col-sm-7 d-none d-sm-block  mt-5'>
+                        <div className='brand text-uppercase fs-2 fw-bold'>Tommy Le</div>
+                        <div className='detail'>Tommy Le Tommy Le Tommy Le</div>
                     </div>
-                    <div className='content-right py-3 col-5 d-flex flex-column gap-3'>
-                        <input type='text' placeholder='Email' className='email form-control' />
-                        <input type='password' placeholder='Password' className='password form-control' />
+                    <div className='content-right d-flex flex-column col-12 col-sm-5 py-3 gap-3'>
+                        <div className='d-sm-none d-sm-none text-center fs-3 fw-bold brand'>Tommy Le</div>
+                        <input placeholder='Email' type='text' className='form-control' />
+                        <input placeholder='Password' type='password' className='form-control' />
                         <button className='btn btn-primary'>Login</button>
-                        <span className='text-center'>Forgotten password?</span>
+                        <span className='text-center'><a href='#' className=' forgot-password'>Forgotten password?</a></span>
                         <hr />
                         <div className='text-center'>
                             <button className='btn btn-success'>Create new account</button>
-
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
