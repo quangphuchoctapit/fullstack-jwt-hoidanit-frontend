@@ -25,11 +25,11 @@ function App() {
           <Route path='/about'>
             about
           </Route>
-          <Route path='/' exact>
-            home
-          </Route>
           <Route path='/login'>
             <Login />
+          </Route>
+          <Route path='/' exact>
+            home
           </Route>
           <Route path='*'>
             404 Not Found
