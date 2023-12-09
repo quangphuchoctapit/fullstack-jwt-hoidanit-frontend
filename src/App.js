@@ -1,5 +1,6 @@
 import Nav from '../src/components/Navigation/Nav.js';
 import Login from '../src/components/Login/Login.js';
+import Register from '../src/components/Register/Register.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.scss';
 import {
@@ -27,6 +28,9 @@ function App() {
           </Route>
           <Route path='/login'>
             <Login />
+          </Route>
+          <Route path='/register'>
+            <Register />
           </Route>
           <Route path='/' exact>
             home
