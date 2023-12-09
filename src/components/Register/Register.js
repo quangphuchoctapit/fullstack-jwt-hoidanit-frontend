@@ -3,6 +3,8 @@ import './Register.scss'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useHistory } from 'react-router-dom'
+import { toast } from 'react-toastify'
+
 const Register = (props) => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -15,7 +17,27 @@ const Register = (props) => {
         history.push('/login')
     }
 
+    const checkValidInputs = () => {
+        let requiredInputs = [email, phone, username, password, rePassword]
+        let requiredParams = ['Email', 'Phone', 'Username', "Password", 'Re-enter Password']
+        if (password !== rePassword) {
+            toast.error('Passwords do not match')
+            return false
+        }
+        for (let i = 0; i < requiredInputs.length; i++) {
+            if (!requiredInputs[i]) {
+                toast.error(`${requiredParams[i]} input is required`)
+                return false
+            }
+        }
+        return true
+    }
+
     const handleRegister = () => {
+        let checkValid = checkValidInputs()
+        if (checkValid) {
+            toast.success('OK Successfully Register')
+        }
         let userData = { email, username, password, phone }
         console.log(userData)
     }
