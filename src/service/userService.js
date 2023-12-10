@@ -7,6 +7,12 @@ const registerNewUser = (username, email, phone, password) => {
     })
 }
 
+const checkLogin = (phoneOrEmail, password) => {
+    return axios.post('http://localhost:8080/api/v1/login', {
+        phoneOrEmail, password
+    })
+}
+
 export {
-    registerNewUser
+    registerNewUser, checkLogin
 }

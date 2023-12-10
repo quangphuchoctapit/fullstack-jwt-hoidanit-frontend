@@ -53,13 +53,14 @@ const Register = (props) => {
             setObjCheckInput({ ...defaultValidInput, isValidRepassword: false })
             return false
         }
-        let requiredInputs = [email, phone, username, password, rePassword]
-        let requiredParams = ['Email', 'Phone', 'Username', "Password", 'Re-enter Password']
-        let validParam = ['isValidEmail', 'isValidPhone', 'isValidUsername', "isValidPassword", 'isValidRePassword']
+
         if (password !== rePassword) {
             toast.error('Passwords do not match')
             return false
         }
+        // let requiredInputs = [email, phone, username, password, rePassword]
+        // let requiredParams = ['Email', 'Phone', 'Username', "Password", 'Re-enter Password']
+        // let validParam = ['isValidEmail', 'isValidPhone', 'isValidUsername', "isValidPassword", 'isValidRePassword']
         // for (let i = 0; i < requiredInputs.length; i++) {
         //     if (!requiredInputs[i]) {
         //         toast.error(`${requiredParams[i]} input is required`)
