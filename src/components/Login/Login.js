@@ -50,6 +50,12 @@ const Login = (props) => {
             if (dataServer.EC === 0) {
                 setObjCheckInput({ ...defaultValidInput, isValidPassword: true, isValidPhoneOrEmail: true })
                 toast.success('Ok Successfully logged in')
+                let sessionData = {
+                    isAuthenticated: true,
+                    token: 'fakeToken'
+                }
+                sessionStorage.setItem('account', JSON.stringify(sessionData))
+                history.push('/users')
             } else {
                 toast.error(dataServer.EM)
             }
