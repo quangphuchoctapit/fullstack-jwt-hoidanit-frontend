@@ -18,6 +18,9 @@ const Login = (props) => {
             history.push('/')
             window.location.reload()
         }
+        else {
+            history.push('/login')
+        }
     }, [])
 
     const [phoneOrEmail, setPhoneOrEmail] = useState('')
