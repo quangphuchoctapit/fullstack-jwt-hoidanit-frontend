@@ -1,18 +1,13 @@
 import { useState, useEffect } from 'react'
 import Nav from '../src/components/Navigation/Nav.js';
-import Login from '../src/components/Login/Login.js';
-import Register from '../src/components/Register/Register.js';
-import Users from '../src/components/ManageUsers/Users.js';
+import AppRoutes from './routes/AppRoutes.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import _ from 'lodash'
 import './App.scss';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
+  BrowserRouter as Router
 } from 'react-router-dom'
 
 function App() {
@@ -30,33 +25,7 @@ function App() {
         {account && !_.isEmpty(account) && account.isAuthenticated &&
           <Nav />
         }
-        <Switch>
-
-          <Route path='/news'>
-            news
-          </Route>
-          <Route path='/contact'>
-            contact
-          </Route>
-          <Route path='/about'>
-            about
-          </Route>
-          <Route path='/login'>
-            <Login />
-          </Route>
-          <Route path='/register'>
-            <Register />
-          </Route>
-          <Route path='/users'>
-            <Users />
-          </Route>
-          <Route path='/' exact>
-            home
-          </Route>
-          <Route path='*'>
-            404 Not Found
-          </Route>
-        </Switch>
+        <AppRoutes />
       </div>
       <ToastContainer
         position="top-center"

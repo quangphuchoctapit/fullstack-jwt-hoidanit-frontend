@@ -1,6 +1,6 @@
 import React from 'react';
 import './Login.scss'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { checkLogin } from '../../service/userService';
@@ -11,6 +11,14 @@ const Login = (props) => {
     const handleCreateNewAccount = () => {
         history.push("/register")
     }
+
+    useEffect(() => {
+        let sessionData = sessionStorage.getItem('account')
+        if (sessionData) {
+            history.push('/')
+            window.location.reload()
+        }
+    }, [])
 
     const [phoneOrEmail, setPhoneOrEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -56,9 +64,15 @@ const Login = (props) => {
                 }
                 sessionStorage.setItem('account', JSON.stringify(sessionData))
                 history.push('/users')
+                window.location.reload()
             } else {
                 toast.error(dataServer.EM)
             }
+        }
+    }
+    const handlePressEnter = (e) => {
+        if (e.keyCode === 13) {
+            handleLogin()
         }
     }
     return (
@@ -74,7 +88,13 @@ const Login = (props) => {
                         <label htmlFor='email'>Enter an email or phone number</label>
                         <input onChange={e => setPhoneOrEmail(e.target.value)} value={phoneOrEmail} id='email' placeholder='Enter email or phone number' type='text' className={objCheckInput.isValidPhoneOrEmail ? 'form-control' : 'form-control is-invalid'} />
                         <label htmlFor='password'>Enter your password</label>
-                        <input onChange={e => setPassword(e.target.value)} value={password} id='password' placeholder='Password' type='password' className={objCheckInput.isValidPassword ? 'form-control' : 'form-control is-invalid'} />
+                        <input
+                            onKeyDown={e => handlePressEnter(e)}
+                            onChange={e => setPassword(e.target.value)}
+                            value={password} id='password'
+                            placeholder='Password' type='password'
+                            className={objCheckInput.isValidPassword ? 'form-control' : 'form-control is-invalid'}
+                        />
                         <button className='btn btn-primary' onClick={() => handleLogin()}>Login</button>
                         <span className='text-center'><a href='#' className=' forgot-password'>Forgotten password?</a></span>
                         <hr />
