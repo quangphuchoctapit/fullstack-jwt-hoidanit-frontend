@@ -19,16 +19,16 @@ const Users = (props) => {
     const [isShowModalUser, setIsShowModalUser] = useState(false)
 
     const [dataModal, setDataModal] = useState({})
+    const [dataModalUser, setDataModalUser] = useState({})
+
 
 
     useEffect(() => {
-        console.log('check currentpage ')
         fetchUserList()
     }, [currentPage])
 
     const fetchUserList = async () => {
         let response = await fetchAllUsers(currentPage, currentLimit)
-        // console.log('check response: ', response)
         if (response && response.data && response.data.EC === 0) {
             setListUsers(response.data.DT.users)
             setTotalPages(response.data.DT.totalPages)
@@ -53,8 +53,12 @@ const Users = (props) => {
         setDataModal({})
     }
 
+    const handleCloseModalUser = () => {
+        setIsShowModalUser(false)
+        setDataModalUser({})
+    }
+
     const confirmDeleteUser = async (data) => {
-        console.log('check delete, ', data)
         let response = await deleteAUser(data.id)
         if (response && response.data && response.data.EC === 0) {
             await fetchUserList()
@@ -74,7 +78,7 @@ const Users = (props) => {
                             <div className='text-center'><h2>User list</h2></div>
                             <div className="d-flex flex-column flex-sm-row-reverse gap-2 my-2">
                                 <button className='btn btn-success'>Refresh</button>
-                                <button className='btn btn-primary'>Add new User</button>
+                                <button onClick={() => setIsShowModalUser(true)} className='btn btn-primary'>Add new User</button>
                             </div>
                         </div>
                         <div className='users-table'>
@@ -144,10 +148,10 @@ const Users = (props) => {
                 dataModal={dataModal}
                 confirmDeleteUser={confirmDeleteUser}
             />
-            <ModalUser isShow={isShowModalDelete}
-                handleClose={handleClose}
-                dataModal={dataModal}
-                confirmDeleteUser={confirmDeleteUser}
+            <ModalUser isShow={isShowModalUser}
+                handleClose={handleCloseModalUser}
+                dataModal={dataModalUser}
+            // confirmDeleteUser={confirmDeleteUser}
             />
         </>
     );

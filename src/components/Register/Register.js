@@ -80,7 +80,6 @@ const Register = (props) => {
         if (checkValid) {
             let response = await registerNewUser(username, email, phone, password)
             let serverData = response.data.data
-            console.log('data: ', serverData)
             if (+serverData.EC === 0) {
                 toast.success(serverData.EM)
                 history.push('/login')
@@ -92,7 +91,6 @@ const Register = (props) => {
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/v1/api-test').then((data) => {
-            console.log('check data: ', data)
         })
 
     }, [])

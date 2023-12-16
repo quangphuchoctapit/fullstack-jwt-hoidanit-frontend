@@ -57,7 +57,6 @@ const Login = (props) => {
         if (checkValid) {
             let response = await checkLogin(phoneOrEmail, password)
             let dataServer = response.data
-            console.log('check dataserver: ', dataServer)
             if (dataServer.EC === 0) {
                 setObjCheckInput({ ...defaultValidInput, isValidPassword: true, isValidPhoneOrEmail: true })
                 toast.success('Ok Successfully logged in')

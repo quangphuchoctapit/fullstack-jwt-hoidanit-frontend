@@ -17,7 +17,6 @@ function App() {
     if (sessionData) {
       setAccount(JSON.parse(sessionData))
     }
-    console.log('check account: ', account, 'isempty: ', !_.isEmpty(account), 'isauthenticated: ', account.isAuthenticated)
   }, [])
   return (
     <Router>
