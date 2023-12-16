@@ -6,7 +6,7 @@ import Button from 'react-bootstrap/Button'
 const ModalDelete = (props) => {
     return (
         <>
-            <Modal show={props.isShow}
+            <Modal show={props.isShow} centered
                 onHide={props.handleClose}
                 animation={false}>
                 <Modal.Header closeButton>

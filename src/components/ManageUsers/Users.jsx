@@ -3,6 +3,8 @@ import './Users.scss'
 import { fetchAllUsers, deleteAUser } from '../../service/userService';
 import ReactPaginate from 'react-paginate'
 import ModalDelete from './ModalDelete';
+import ModalUser from './ModalUser';
+
 import { toast } from 'react-toastify'
 
 const Users = (props) => {
@@ -14,6 +16,8 @@ const Users = (props) => {
     const [itemOffset, setItemOffset] = useState(0);
 
     const [isShowModalDelete, setIsShowModalDelete] = useState(false)
+    const [isShowModalUser, setIsShowModalUser] = useState(false)
+
     const [dataModal, setDataModal] = useState({})
 
 
@@ -42,7 +46,6 @@ const Users = (props) => {
     const handleDeleteUser = async (userData) => {
         setIsShowModalDelete(true)
         setDataModal(userData)
-
     }
 
     const handleClose = () => {
@@ -87,8 +90,8 @@ const Users = (props) => {
                                 </thead>
                                 <tbody>
                                     {listUsers && listUsers.length > 0 ?
-                                        listUsers.map((user) => (
-                                            <tr key={`row ${listUsers.id}`}>
+                                        listUsers.map((user, index) => (
+                                            <tr key={`row ${index}`}>
                                                 <th scope="row">{user.id}</th>
                                                 <td>{user.username}</td>
                                                 <td>{user.email}</td>
@@ -137,6 +140,11 @@ const Users = (props) => {
                 </div>
             </div>
             <ModalDelete isShow={isShowModalDelete}
+                handleClose={handleClose}
+                dataModal={dataModal}
+                confirmDeleteUser={confirmDeleteUser}
+            />
+            <ModalUser isShow={isShowModalDelete}
                 handleClose={handleClose}
                 dataModal={dataModal}
                 confirmDeleteUser={confirmDeleteUser}
