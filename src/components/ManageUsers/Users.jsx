@@ -13,15 +13,13 @@ const Users = (props) => {
     const [currentPage, setCurrentPage] = useState(1)
     const [currentLimit, setCurrentLimit] = useState(3)
     const [totalPages, setTotalPages] = useState(0)
-    const [itemOffset, setItemOffset] = useState(0);
 
     const [isShowModalDelete, setIsShowModalDelete] = useState(false)
     const [isShowModalUser, setIsShowModalUser] = useState(false)
-
     const [dataModal, setDataModal] = useState({})
     const [dataModalUser, setDataModalUser] = useState({})
 
-
+    const [actionModal, setActionModal] = useState("CREATE")
 
     useEffect(() => {
         fetchUserList()
@@ -39,8 +37,10 @@ const Users = (props) => {
         setCurrentPage(+e.selected + 1)
     }
 
-    const handleEditUser = (userId) => {
-        console.log('check edit, ', userId)
+    const handleEditUser = (user) => {
+        setDataModalUser(user)
+        setIsShowModalUser(true)
+        setActionModal('UPDATE')
     }
 
     const handleDeleteUser = async (userData) => {
@@ -53,9 +53,15 @@ const Users = (props) => {
         setDataModal({})
     }
 
-    const handleCloseModalUser = () => {
+    const handleCloseModalUser = async () => {
         setIsShowModalUser(false)
         setDataModalUser({})
+        await fetchUserList()
+    }
+
+    const handleCreateNewUser = () => {
+        setIsShowModalUser(true)
+        setActionModal('CREATE')
     }
 
     const confirmDeleteUser = async (data) => {
@@ -78,7 +84,7 @@ const Users = (props) => {
                             <div className='text-center'><h2>User list</h2></div>
                             <div className="d-flex flex-column flex-sm-row-reverse gap-2 my-2">
                                 <button className='btn btn-success'>Refresh</button>
-                                <button onClick={() => setIsShowModalUser(true)} className='btn btn-primary'>Add new User</button>
+                                <button onClick={() => handleCreateNewUser()} className='btn btn-primary'>Add new User</button>
                             </div>
                         </div>
                         <div className='users-table'>
@@ -96,7 +102,7 @@ const Users = (props) => {
                                     {listUsers && listUsers.length > 0 ?
                                         listUsers.map((user, index) => (
                                             <tr key={`row ${index}`}>
-                                                <th scope="row">{user.id}</th>
+                                                <th scope="row">{(currentPage - 1) * currentLimit + index + 1}</th>
                                                 <td>{user.username}</td>
                                                 <td>{user.email}</td>
                                                 <td>{user.Group ? user.Group.name : '-'}</td>
@@ -150,7 +156,8 @@ const Users = (props) => {
             />
             <ModalUser isShow={isShowModalUser}
                 handleClose={handleCloseModalUser}
-                dataModal={dataModalUser}
+                dataModalUser={dataModalUser}
+                action={actionModal}
             // confirmDeleteUser={confirmDeleteUser}
             />
         </>
