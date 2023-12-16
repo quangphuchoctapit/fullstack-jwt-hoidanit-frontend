@@ -48,10 +48,19 @@ const Users = (props) => {
         setDataModal(userData)
     }
 
-    const handleClose = () => {
+    const handleClose = async () => {
         setIsShowModalDelete(false)
         setDataModal({})
+        await fetchUserList()
+        if (listUsers && listUsers.length === 1) {
+            setCurrentPage(2)
+        }
     }
+
+    useEffect(() => {
+        console.log('check current page: ', currentPage, 'totalPage: ', totalPages)
+
+    }, [listUsers])
 
     const handleCloseModalUser = async () => {
         setIsShowModalUser(false)
@@ -75,16 +84,25 @@ const Users = (props) => {
         }
     }
 
+    const handleRefresh = async () => {
+        let response = await fetchAllUsers(currentPage, currentLimit)
+        if (response && response.data && response.data.EC === 0) {
+            setListUsers(response.data.DT.users)
+            setTotalPages(response.data.DT.totalPages)
+            setCurrentPage(1)
+        }
+    }
+
     return (
         <>
             <div className='users-container'>
                 <div className='container'>
                     <div className='row'>
                         <div className='users-table-header col-12 d-flex flex-column mt-3'>
-                            <div className='text-center'><h2>User list</h2></div>
+                            <div className='text-center'><h2>Manage User</h2></div>
                             <div className="d-flex flex-column flex-sm-row-reverse gap-2 my-2">
-                                <button className='btn btn-success'>Refresh</button>
-                                <button onClick={() => handleCreateNewUser()} className='btn btn-primary'>Add new User</button>
+                                <button onClick={() => handleRefresh()} className='btn btn-success'><i className="fa fa-refresh" aria-hidden="true"></i>  Refresh</button>
+                                <button onClick={() => handleCreateNewUser()} className='btn btn-primary'> <i className=" fa fa-plus-circle" aria-hidden="true"></i> Add new User</button>
                             </div>
                         </div>
                         <div className='users-table'>
@@ -107,8 +125,8 @@ const Users = (props) => {
                                                 <td>{user.email}</td>
                                                 <td>{user.Group ? user.Group.name : '-'}</td>
                                                 <td>
-                                                    <button onClick={() => handleEditUser(user)} className='mx-3 btn btn-warning'>Edit</button>
-                                                    <button onClick={() => handleDeleteUser(user)} className=' btn btn-danger'>Delete</button>
+                                                    <button onClick={() => handleEditUser(user)} className='mx-3 btn btn-warning'><i className="fa fa-pencil" aria-hidden="true"></i></button>
+                                                    <button onClick={() => handleDeleteUser(user)} className=' btn btn-danger'><i className="fa fa-trash" aria-hidden="true"></i></button>
 
                                                 </td>
 
@@ -148,7 +166,7 @@ const Users = (props) => {
 
                     </div>
                 </div>
-            </div>
+            </div >
             <ModalDelete isShow={isShowModalDelete}
                 handleClose={handleClose}
                 dataModal={dataModal}

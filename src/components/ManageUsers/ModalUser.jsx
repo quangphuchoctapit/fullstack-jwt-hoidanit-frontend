@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import { toast } from 'react-toastify'
-import { fetchGroups, CreateNewUser } from '../../service/userService'
+import { fetchGroups, CreateNewUser, updateUserInfo } from '../../service/userService'
 import _ from 'lodash'
 
 const ModalUser = (props) => {
@@ -56,10 +56,6 @@ const ModalUser = (props) => {
     }
 
     useEffect(() => {
-        console.log('check state: value: ', userData)
-    }, [userData])
-
-    useEffect(() => {
         if (action === 'CREATE') {
             if (listGroups && listGroups.length > 0) {
                 setUserData({ ...userData, selectedGroup: listGroups[0].id, sex: listSex[0].id })
@@ -67,25 +63,26 @@ const ModalUser = (props) => {
         }
     }, [action])
 
+    useEffect(() => {
+        let userData = dataModalUser
+        console.log('cehck suer dataa: ', userData)
+        if (action === 'UPDATE') {
+            setUserData({
+                email: userData.email,
+                address: userData.address ? userData.address : '',
+                phone: userData.phone,
+                username: userData.username,
+                sex: userData.sex ? userData.sex : '',
+                selectedGroup: userData.Group ? userData.Group.id : ''
+            })
+        }
+    }, [dataModalUser])
+
     const handleOnChangeInput = (value, id) => {
         let _userData = _.cloneDeep(userData)
         _userData[id] = value
         setUserData(_userData)
     }
-
-
-    useEffect(() => {
-        console.log('cehck  data modal user: ', dataModalUser)
-        let userData = dataModalUser
-        setUserData({
-            email: userData.email,
-            address: userData.address ? userData.address : '',
-            phone: userData.phone,
-            username: userData.username,
-            sex: userData.sex ? userData.sex : '',
-            selectedGroup: userData.Group ? userData.Group.id : ''
-        })
-    }, [dataModalUser])
 
     const checkValidInputs = () => {
         setValidInputs(defaultValidInputs)
@@ -96,6 +93,10 @@ const ModalUser = (props) => {
                 let _validInputs = _.cloneDeep(defaultValidInputs)
                 _validInputs[arr[i]] = false
                 setValidInputs(_validInputs)
+                if (i === 3) {
+                    check = true
+                    continue
+                }
                 check = false
                 toast.error(`Please enter ${arr[i]}`)
                 break
@@ -106,7 +107,6 @@ const ModalUser = (props) => {
 
     const confirmCreateUser = async () => {
         let check = checkValidInputs()
-        console.log('check ', check)
         if (check === true) {
             let dataServer = await CreateNewUser({ ...userData, groupId: userData['selectedGroup'] })
             console.log('check dataServer: ', dataServer)
@@ -118,6 +118,19 @@ const ModalUser = (props) => {
             } if (dataServer.data && dataServer.data.EC !== 0) {
                 toast.error(dataServer.data.EM)
 
+            }
+        }
+    }
+
+    const confirmUpdateUser = async () => {
+        let check = checkValidInputs()
+        if (check === true) {
+            let dataServer = await updateUserInfo({ ...userData, groupId: userData['selectedGroup'], id: dataModalUser.id })
+            if (dataServer.data && dataServer.data.EC === 0) {
+                toast.success(dataServer.data.EM)
+                setValidInputs(defaultValidInputs)
+                setUserData(defaultUserData)
+                handleClose()
             }
         }
     }
@@ -195,7 +208,7 @@ const ModalUser = (props) => {
                         Close
                     </Button>
                     <Button variant="primary"
-                        onClick={confirmCreateUser}
+                        onClick={action === 'CREATE' ? confirmCreateUser : confirmUpdateUser}
                     >
                         {action === 'CREATE' ? 'Add' : "Update"}
                     </Button>
