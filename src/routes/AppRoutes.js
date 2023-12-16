@@ -5,7 +5,7 @@ import {
 } from 'react-router-dom'
 import Login from '../components/Login/Login.js';
 import Register from '../components/Register/Register.js';
-import Users from '../components/ManageUsers/Users.js';
+import Users from '../components/ManageUsers/Users.jsx';
 import PrivateRoutes from './PrivateRoutes.js';
 
 const AppRoutes = (props) => {
