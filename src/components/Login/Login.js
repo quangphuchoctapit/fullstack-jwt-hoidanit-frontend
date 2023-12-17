@@ -16,7 +16,7 @@ const Login = (props) => {
         let sessionData = sessionStorage.getItem('account')
         if (sessionData) {
             history.push('/')
-            window.location.reload()
+            // window.location.reload()
         }
         else {
             history.push('/login')
