@@ -1,5 +1,5 @@
 import axios from 'axios'
-
+import { toast } from 'react-toastify';
 //set config defaults when creating new instance
 
 const instance = axios.create({
@@ -26,10 +26,38 @@ instance.interceptors.response.use(function (response) {
     // Any status code that lie within the range of 2xx cause this function to trigger
     // Do something with response data
     return response.data;
-}, function (error) {
+}, function (err) {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
-    return Promise.reject(error);
+
+    const status = err && err.response && err.response.status || 500
+    console.log('check status: ', status)
+    switch (status) {
+        case 401: {
+            toast.error('')
+            return Promise.reject(err)
+        }
+        case 403: {
+            return Promise.reject(err)
+        }
+        case 400: {
+            return Promise.reject(err)
+        }
+        case 404: {
+            return Promise.reject(err)
+        }
+        case 409: {
+            return Promise.reject(err)
+        }
+        case 422: {
+            return Promise.reject(err)
+        }
+        default: {
+            return Promise.reject(err)
+
+        }
+    }
+    // return Promise.reject(error);
 });
 
 export default instance
