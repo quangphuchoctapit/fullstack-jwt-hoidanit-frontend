@@ -44,14 +44,14 @@ const ModalUser = (props) => {
 
     const getAllGroups = async () => {
         let res = await fetchGroups()
-        if (res && res.data.EC === 0) {
-            if (res.data.DT && res.data.DT.length > 0) {
-                setListGroups(res.data.DT)
-                setUserData({ ...userData, selectedGroup: res.data.DT[0].id, sex: listSex[0].id })
+        if (res && res.EC === 0) {
+            if (res.DT && res.DT.length > 0) {
+                setListGroups(res.DT)
+                setUserData({ ...userData, selectedGroup: res.DT[0].id, sex: listSex[0].id })
             }
 
         } else {
-            toast.error(res.data.EM)
+            toast.error(res.EM)
         }
     }
 
@@ -110,13 +110,13 @@ const ModalUser = (props) => {
         if (check === true) {
             let dataServer = await CreateNewUser({ ...userData, groupId: userData['selectedGroup'] })
             console.log('check dataServer: ', dataServer)
-            if (dataServer.data && dataServer.data.EC === 0) {
+            if (dataServer && dataServer.EC === 0) {
                 toast.success('Create new user successfully')
                 handleClose()
                 setUserData({ ...defaultUserData, selectedGroup: listGroups[0].id })
 
-            } if (dataServer.data && dataServer.data.EC !== 0) {
-                toast.error(dataServer.data.EM)
+            } if (dataServer && dataServer.EC !== 0) {
+                toast.error(dataServer.EM)
 
             }
         }
@@ -126,8 +126,8 @@ const ModalUser = (props) => {
         let check = checkValidInputs()
         if (check === true) {
             let dataServer = await updateUserInfo({ ...userData, groupId: userData['selectedGroup'], id: dataModalUser.id })
-            if (dataServer.data && dataServer.data.EC === 0) {
-                toast.success(dataServer.data.EM)
+            if (dataServer && dataServer.EC === 0) {
+                toast.success(dataServer.EM)
                 setValidInputs(defaultValidInputs)
                 setUserData(defaultUserData)
                 handleClose()

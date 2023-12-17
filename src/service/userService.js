@@ -1,38 +1,38 @@
-import axios from 'axios'
+import axios from '../setup/axios'
 
 
 const registerNewUser = (username, email, phone, password) => {
-    return axios.post('http://localhost:8080/api/v1/register', {
+    return axios.post('/api/v1/register', {
         username, email, phone, password
     })
 }
 
 const checkLogin = (phoneOrEmail, password) => {
-    return axios.post('http://localhost:8080/api/v1/login', {
+    return axios.post('/api/v1/login', {
         phoneOrEmail, password
     })
 }
 
 const fetchAllUsers = (page, limit) => {
-    return axios.get(`http://localhost:8080/api/v1/user/read?page=${page}&limit=${limit}`)
+    return axios.get(`/api/v1/user/read?page=${page}&limit=${limit}`)
 }
 
 const deleteAUser = (id) => {
-    return axios.delete(`http://localhost:8080/api/v1/user/delete`, { data: { id: id } })
+    return axios.delete(`/api/v1/user/delete`, { data: { id: id } })
 }
 
 const fetchGroups = () => {
-    return axios.get(`http://localhost:8080/api/v1/group/read`)
+    return axios.get(`/api/v1/group/read`)
 }
 
 
 const CreateNewUser = (userData) => {
-    return axios.post(`http://localhost:8080/api/v1/user/create`, { ...userData })
+    return axios.post(`/api/v1/user/create`, { ...userData })
 }
 
 
 const updateUserInfo = (userData) => {
-    return axios.put(`http://localhost:8080/api/v1/user/edit`, { ...userData })
+    return axios.put(`/api/v1/user/edit`, { ...userData })
 }
 
 export {
