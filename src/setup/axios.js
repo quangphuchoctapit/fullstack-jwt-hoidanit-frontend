@@ -34,10 +34,12 @@ instance.interceptors.response.use(function (response) {
     console.log('check status: ', status)
     switch (status) {
         case 401: {
-            toast.error('')
+            toast.error('Unathorized user... Please login.')
+            // window.location.href('/login')
             return Promise.reject(err)
         }
         case 403: {
+            toast.error('You do not have permission to access this resource.')
             return Promise.reject(err)
         }
         case 400: {
