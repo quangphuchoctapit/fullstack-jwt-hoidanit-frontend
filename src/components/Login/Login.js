@@ -4,9 +4,12 @@ import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify'
 import { checkLogin } from '../../service/userService';
-
+import { UserContext } from '../../context/UserContext';
 
 const Login = (props) => {
+    let { loginContext } = React.useContext(UserContext)
+
+
     let history = useHistory()
     const handleCreateNewAccount = () => {
         history.push("/register")
@@ -58,15 +61,23 @@ const Login = (props) => {
             let response = await checkLogin(phoneOrEmail, password)
             let dataServer = response
             if (dataServer.EC === 0) {
+                let username = dataServer.DT.username
+                let email = dataServer.DT.email
+                let groupWithRoles = dataServer.DT.groupWithRoles
+                let token = dataServer.DT.access_token
+
+                let data = {
+                    isAuthenticated: true,
+                    token,
+                    account: { username, email, groupWithRoles }
+                }
+                loginContext(data)
+
                 setObjCheckInput({ ...defaultValidInput, isValidPassword: true, isValidPhoneOrEmail: true })
                 toast.success('Ok Successfully logged in')
-                let sessionData = {
-                    isAuthenticated: true,
-                    token: 'fakeToken'
-                }
-                sessionStorage.setItem('account', JSON.stringify(sessionData))
+                sessionStorage.setItem('account', JSON.stringify(data))
                 history.push('/users')
-                window.location.reload()
+                // window.location.reload()
             } else {
                 toast.error(dataServer.EM)
             }

@@ -8,6 +8,8 @@ import ModalUser from './ModalUser';
 import { toast } from 'react-toastify'
 
 const Users = (props) => {
+
+
     const [listUsers, setListUsers] = useState([])
 
     const [currentPage, setCurrentPage] = useState(1)
@@ -27,7 +29,6 @@ const Users = (props) => {
 
     const fetchUserList = async () => {
         let response = await fetchAllUsers(currentPage, currentLimit)
-        console.log('check res: ', response)
         if (response && response && response.EC === 0) {
             setListUsers(response.DT.users)
             setTotalPages(response.DT.totalPages)
@@ -59,7 +60,6 @@ const Users = (props) => {
     }
 
     useEffect(() => {
-        console.log('check current page: ', currentPage, 'totalPage: ', totalPages)
 
     }, [listUsers])
 

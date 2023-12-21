@@ -5,12 +5,16 @@ import {
     Switch,
     Route,
 } from 'react-router-dom'
+import { UserContext } from '../context/UserContext';
 
 
 const PrivateRoutes = (props) => {
+    let { user } = React.useContext(UserContext)
+
     let history = useHistory()
 
     useEffect(() => {
+        console.log('check suer: ', user)
         let sessionData = sessionStorage.getItem('account')
         if (!sessionData) {
             history.push('/login')

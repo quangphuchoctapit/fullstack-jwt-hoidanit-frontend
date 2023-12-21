@@ -65,7 +65,6 @@ const ModalUser = (props) => {
 
     useEffect(() => {
         let userData = dataModalUser
-        console.log('cehck suer dataa: ', userData)
         if (action === 'UPDATE') {
             setUserData({
                 email: userData.email,
@@ -109,7 +108,6 @@ const ModalUser = (props) => {
         let check = checkValidInputs()
         if (check === true) {
             let dataServer = await CreateNewUser({ ...userData, groupId: userData['selectedGroup'] })
-            console.log('check dataServer: ', dataServer)
             if (dataServer && dataServer.EC === 0) {
                 toast.success('Create new user successfully')
                 handleClose()

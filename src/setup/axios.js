@@ -31,10 +31,9 @@ instance.interceptors.response.use(function (response) {
     // Do something with response error
 
     const status = err && err.response && err.response.status || 500
-    console.log('check status: ', status)
     switch (status) {
         case 401: {
-            toast.error('Unathorized user... Please login.')
+            toast.error('Unathorized user... Your account is not allow to access this resource.')
             // window.location.href('/login')
             return Promise.reject(err)
         }
