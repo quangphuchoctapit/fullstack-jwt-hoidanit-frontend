@@ -1,6 +1,7 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect } from 'react-router-dom';
 import { useEffect } from 'react'
+import _ from 'lodash'
 import {
     Switch,
     Route,
@@ -11,21 +12,20 @@ import { UserContext } from '../context/UserContext';
 const PrivateRoutes = (props) => {
     let { user } = React.useContext(UserContext)
 
-    let history = useHistory()
-
-    useEffect(() => {
-        console.log('check suer: ', user)
-        let sessionData = sessionStorage.getItem('account')
-        if (!sessionData) {
-            history.push('/login')
-            window.location.reload()
-        }
-    }, [])
-    return (
-        <div>
-            <Route path={props.path} component={props.component} />
-        </div>
-    );
+    console.log(user)
+    if (user && user.isAuthenticated === true) {
+        return (
+            <div>
+                <Route path={props.path} component={props.component} />
+            </div>
+        );
+    } else {
+        return (
+            <>
+                <Redirect to='login'></Redirect>
+            </>
+        )
+    }
 }
 
 export default PrivateRoutes;

@@ -15,16 +15,16 @@ const Login = (props) => {
         history.push("/register")
     }
 
-    useEffect(() => {
-        let sessionData = sessionStorage.getItem('account')
-        if (sessionData) {
-            history.push('/')
-            // window.location.reload()
-        }
-        else {
-            history.push('/login')
-        }
-    }, [])
+    // useEffect(() => {
+    //     let sessionData = sessionStorage.getItem('account')
+    //     if (sessionData) {
+    //         history.push('/')
+    //         // window.location.reload()
+    //     }
+    //     else {
+    //         history.push('/login')
+    //     }
+    // }, [])
 
     const [phoneOrEmail, setPhoneOrEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -75,9 +75,8 @@ const Login = (props) => {
 
                 setObjCheckInput({ ...defaultValidInput, isValidPassword: true, isValidPhoneOrEmail: true })
                 toast.success('Ok Successfully logged in')
-                sessionStorage.setItem('account', JSON.stringify(data))
                 history.push('/users')
-                // window.location.reload()
+
             } else {
                 toast.error(dataServer.EM)
             }

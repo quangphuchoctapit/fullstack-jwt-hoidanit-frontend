@@ -11,19 +11,10 @@ import {
 } from 'react-router-dom'
 
 function App() {
-  const [account, setAccount] = useState({})
-  useEffect(() => {
-    let sessionData = sessionStorage.getItem('account')
-    if (sessionData) {
-      setAccount(JSON.parse(sessionData))
-    }
-  }, [])
   return (
     <Router>
       <div className="app-container">
-        {account && !_.isEmpty(account) && account.isAuthenticated &&
-          <Nav />
-        }
+        <Nav />
         <AppRoutes />
       </div>
       <ToastContainer

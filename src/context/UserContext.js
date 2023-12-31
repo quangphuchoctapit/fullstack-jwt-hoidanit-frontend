@@ -1,16 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { getUserAccount } from '../service/userService'
 
-const UserContext = React.createContext({ name: '', auth: false })
+const UserContext = React.createContext(null)
 
 const UserProvider = ({ children }) => {
     const [user, setUser] = useState({
-        isAuthenticated: true,
+        isAuthenticated: false,
         token: "",
-        account: {
-            email: '',
-            username: '',
-            groupWithRoles: ''
-        }
+        account: {}
     })
 
     //login
@@ -25,6 +22,27 @@ const UserProvider = ({ children }) => {
             auth: false
         })
     }
+
+    const fetchUser = async () => {
+        let dataServer = await getUserAccount()
+        if (dataServer?.EC === 0) {
+            let username = dataServer.DT.username
+            let email = dataServer.DT.email
+            let groupWithRoles = dataServer.DT.groupWithRoles
+            let token = dataServer.DT.access_token
+
+            let data = {
+                isAuthenticated: true,
+                token,
+                account: { username, email, groupWithRoles }
+            }
+            setUser(data)
+        }
+    }
+
+    useEffect(() => {
+        fetchUser()
+    }, [])
 
     return (
         <>
