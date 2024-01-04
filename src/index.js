@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { UserProvider } from './context/UserContext';
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 import 'font-awesome/css/font-awesome.min.css'
 
 ReactDOM.render(

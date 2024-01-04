@@ -35,7 +35,7 @@ instance.interceptors.response.use(function (response) {
         case 401: {
             toast.error('Unathorized user... Your account is not allow to access this resource.')
             // window.location.href('/login')
-            return Promise.reject(err)
+            return err.response.data
         }
         case 403: {
             toast.error('You do not have the permission to access this resource.')
