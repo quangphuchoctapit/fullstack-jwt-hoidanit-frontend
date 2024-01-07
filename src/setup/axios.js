@@ -8,7 +8,7 @@ const instance = axios.create({
 
 instance.defaults.withCredentials = true
 
-// instance.defaults.headers.common['Authorization'] = 'AUTH_TOKEN'
+instance.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem('jwt')}`
 
 
 

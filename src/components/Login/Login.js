@@ -75,6 +75,8 @@ const Login = (props) => {
 
                 setObjCheckInput({ ...defaultValidInput, isValidPassword: true, isValidPhoneOrEmail: true })
                 toast.success('Ok Successfully logged in')
+
+                localStorage.setItem('jwt', token)
                 history.push('/users')
 
             } else {
