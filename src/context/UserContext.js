@@ -21,10 +21,8 @@ const UserProvider = ({ children }) => {
 
     //logout
     const logoutContext = () => {
-        setUser({
-            name: '',
-            auth: false
-        })
+        setUser({ ...userDefault, isLoading: false })
+
     }
 
     const fetchUser = async () => {
@@ -48,8 +46,11 @@ const UserProvider = ({ children }) => {
     }
 
     useEffect(() => {
-        if (location !== '/' || location !== '/login') {
+        if (location !== '/' && location !== '/login') {
             fetchUser()
+        } else {
+            setUser({ ...user, isLoading: false })
+
         }
     }, [])
 
