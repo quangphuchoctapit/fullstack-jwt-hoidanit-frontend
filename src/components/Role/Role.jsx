@@ -1,29 +1,34 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import './Role.scss'
 import _ from 'lodash'
 import { v4 as uuidv4 } from 'uuid'
-
+import { toast } from 'react-toastify'
+import { createNewRoles } from '../../service/roleService'
+import TableRole from './TableRole'
 
 const Role = () => {
+    const childRef = useRef()
+    let dataChildDefault = {
+        url: '',
+        description: '',
+        isValidUrl: true
+    }
     const [listChild, setListChild] = useState({
-        child1: {
-            url: '',
-            description: ''
-        }
+        child1: dataChildDefault
     })
 
     const handleOnChangeInput = (name, value, key) => {
         let _listChild = _.cloneDeep(listChild)
         _listChild[key][name] = value
+        if (value && name === 'url') {
+            _listChild[key]['isValidUrl'] = true
+        }
         setListChild(_listChild)
     }
 
     const handleAddNewRole = () => {
         let _listChild = _.cloneDeep(listChild)
-        _listChild[`child-${uuidv4()}`] = {
-            url: '',
-            description: ''
-        }
+        _listChild[`child-${uuidv4()}`] = dataChildDefault
         setListChild(_listChild)
     }
 
@@ -33,15 +38,54 @@ const Role = () => {
         setListChild(_listChild)
     }
 
+    const buildDataToPersist = () => {
+        let _listChild = _.cloneDeep(listChild)
+        let result = []
+        Object.entries(_listChild).map(([key, child], index) => {
+            result.push({
+                url: child.url,
+                description: child.description
+            })
+            return result
+        })
+        return result
+    }
+
+    const handleSave = async () => {
+        let _listChild = _.cloneDeep(listChild)
+        let invalidUrl = Object.entries(_listChild).find(([key, child], index) => {
+            return child && !child.url
+        })
+        if (!invalidUrl) {
+            let data = buildDataToPersist()
+            let response = await createNewRoles(data)
+            if (response?.EC === 0) {
+                toast.success(response.EM)
+                childRef.current.fetchAllRolesAgain()
+            }
+            else {
+                toast.error('Something went wrong')
+            }
+
+        } else {
+            console.log('not valid url', invalidUrl)
+            let key = invalidUrl[0]
+            _listChild[key]['isValidUrl'] = false
+            toast.error('Please enter a valid url')
+            setListChild(_listChild)
+        }
+
+    }
+
     return (
         <>
             <div className="role-container">
                 <div className="container">
                     <div className="row">
                         <div className="col-12">
-                            <h1 className="text-center font-bold">Roles</h1>
+                            <h1 className="text-center font-bold">Add Roles</h1>
                         </div>
-                        <div className=" role-parent">
+                        <div className=" role-parent my-3">
                             {Object.entries(listChild).map(([key, child], index) => {
                                 return (
 
@@ -50,7 +94,7 @@ const Role = () => {
                                             <label htmlFor="">URL:</label>
                                             <input value={child.url} type='text'
                                                 onChange={(e) => handleOnChangeInput('url', e.target.value, key)}
-                                                className='form-control' />
+                                                className={child.isValidUrl ? 'form-control' : 'form-control is-invalid'} />
                                         </div>
                                         <div className="col-5 form-group">
                                             <label htmlFor="">Description:</label>
@@ -69,9 +113,14 @@ const Role = () => {
 
                             })}
                             <div className="mt-3">
-                                <button className="btn btn-warning">Save</button>
+                                <button onClick={handleSave} className="btn btn-warning">Save</button>
                             </div>
 
+                        </div>
+                        <hr />
+                        <div className="table-roles my-3">
+                            <h1 className="text-center font-bold">Current roles</h1>
+                            <TableRole ref={childRef} />
                         </div>
                     </div>
                 </div>
