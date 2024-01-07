@@ -10,7 +10,7 @@ import {
   BrowserRouter as Router
 } from 'react-router-dom'
 import { UserContext } from './context/UserContext.js';
-import NavHeader from '../src/components/Navigation/Nav.js';
+import NavHeader from '../src/components/Navigation/Nav.jsx';
 
 function App() {
   const { user } = useContext(UserContext)
