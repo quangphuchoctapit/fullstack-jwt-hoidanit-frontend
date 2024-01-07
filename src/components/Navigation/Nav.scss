@@ -28,3 +28,32 @@ body {
 
     ;
 }
+
+.nav-header {
+    .bg-header {
+        background-color: #20232a;
+        color           : white;
+
+        a,
+        .nav-link {
+            color: white !important;
+
+            &:hover {
+                color: #61dafb !important;
+            }
+
+        }
+
+        .nav-link {
+            &.active {
+                color: #61dafb !important;
+            }
+        }
+
+        .dropdown-menu {
+            a {
+                color: #212529 !important;
+            }
+        }
+    }
+}

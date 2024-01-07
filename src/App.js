@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from 'react'
-import Nav from '../src/components/Navigation/Nav.js';
 import AppRoutes from './routes/AppRoutes.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { ToastContainer } from 'react-toastify'
@@ -11,6 +10,7 @@ import {
   BrowserRouter as Router
 } from 'react-router-dom'
 import { UserContext } from './context/UserContext.js';
+import NavHeader from '../src/components/Navigation/Nav.js';
 
 function App() {
   const { user } = useContext(UserContext)
@@ -30,7 +30,7 @@ function App() {
           </div>
           :
           <div className="app-container">
-            <Nav />
+            <NavHeader />
             <AppRoutes />
           </div>
         }
