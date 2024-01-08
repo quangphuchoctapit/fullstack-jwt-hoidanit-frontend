@@ -8,6 +8,8 @@ import Register from '../components/Register/Register.js';
 import Users from '../components/ManageUsers/Users.jsx';
 import PrivateRoutes from './PrivateRoutes.js';
 import Role from '../components/Role/Role.jsx';
+import GroupRole from '../components/GroupRole/GroupRole.jsx';
+
 
 const AppRoutes = (props) => {
     const Projects = () => (
@@ -19,6 +21,8 @@ const AppRoutes = (props) => {
                 <PrivateRoutes path='/users' component={Users} />
                 <PrivateRoutes path='/projects' component={Projects} />
                 <PrivateRoutes path='/roles' component={Role} />
+                <PrivateRoutes path='/group-role' component={GroupRole} />
+
                 <Route path='/project'>
                     contact
                 </Route>
